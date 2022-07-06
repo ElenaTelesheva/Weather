@@ -1,16 +1,19 @@
 <template>
     <div class="main">
-        <button>Today</button>
-        <button>Tomorrow</button>
+        <button @click="mode = 'Today'">Today</button>
+        <button @click="mode = 'Tomorrow'">Tomorrow</button>
         <button>Next 5 Days</button>
 
         <Slider v-bind="options">
-            <div class="item">1</div>
-            <div class="item">2</div>
-            <div class="item">3</div>
-            <div class="item">4</div>
-            <div class="item">5</div>
+            <div class="item" v-for="value in show">
+                <p>{{ value.date[1] }}</p>
+                <img :src="value.imgUrl">
+                <p>{{ value.temperature }}</p>
+                {{ value.icon }}
+            </div>
         </Slider>
+
+        <!-- {{ forecast[0] }} -->
 
     </div>
 </template>
@@ -22,8 +25,8 @@ export default {
     data() {
         return {
             options: {
-                items: 5,
-                margin: 20,
+                items: 8    ,
+                margin: 5,
                 nav: true,
                 dots: true,
                 loop: true,
@@ -44,7 +47,7 @@ export default {
                     }
                 }
             },
-            forecast: [null]
+            mode: 'Today'
         }
     },
     props: [
@@ -53,10 +56,18 @@ export default {
     components: {
         Slider
     },
-    methods: {
-        
+    computed: {
+        show: function(){
+
+            return this.forecast.filter(function(forecast) {
+                return forecast.date[0] == "2022-07-06"
+            })
+
+        }
     },
     mounted() {
+        //console.log(this.forecast)
+        //console.log(this.forecast[0])
     }
 }
 </script>
@@ -81,9 +92,9 @@ export default {
 .item {
     background: #00800b;
     text-align: center;
-    padding: 100px 0;
+    padding: 50px 0;
     color: #fff;
-    font-size: 26px;
+    font-size: 20px;
     font-style: italic;
     font-weight: 300;
 }

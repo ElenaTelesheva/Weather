@@ -13,5 +13,8 @@ export default {
 
     getNext5DaysByQuery(data) {
         return axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${data}&appid=${key}`)
+
+        
     }
+
 }
