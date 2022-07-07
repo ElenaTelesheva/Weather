@@ -11,6 +11,7 @@ class BigWeather{
     static createByResponse(response){
         const weather = new BigWeather;
         weather.date = response.dt_txt.split(" ", 2);
+        weather.date[0] = weather.date[0].split("-", 3);
         weather.icon = response.weather[0].icon;
         weather.temperature = parseInt(response.main.temp - 273);
         weather.humidity = response.main.humidity;
@@ -19,7 +20,7 @@ class BigWeather{
             weather.rain = response.rain;
         }
         
-        console.log(weather)
+        // console.log(weather)
 
         return weather;
         

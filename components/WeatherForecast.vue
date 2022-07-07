@@ -1,69 +1,28 @@
 <template>
-    <div class="main">
-        <button @click="mode = 'Today'">Today</button>
-        <button @click="mode = 'Tomorrow'">Tomorrow</button>
-        <button>Next 5 Days</button>
-
-        <Slider v-bind="options">
-            <div class="item" v-for="value in show">
+    <div id="app">
+       <vue-glide class="demo" :bullet="true">
+            <vue-glide-slide v-for="(value,i) in forecast" :key="i">
                 <p>{{ value.date[1] }}</p>
                 <img :src="value.imgUrl">
                 <p>{{ value.temperature }}</p>
-                {{ value.icon }}
-            </div>
-        </Slider>
-
-        <!-- {{ forecast[0] }} -->
-
+            </vue-glide-slide>
+        </vue-glide>
     </div>
 </template>
 
 <script>
 import Slider from './Slider.vue';
+import VueGlide from './Glide'
+import VueGlideSlide from './GlideSlide'
 
 export default {
-    data() {
-        return {
-            options: {
-                items: 8    ,
-                margin: 5,
-                nav: true,
-                dots: true,
-                loop: true,
-                timing: 'cubic-bezier(0, 0.72, 0.64, 1.06)',
-                offset: 1,
-                prevNav: 'Туда',
-                nextNav: 'Сюда',
-                sibling: true,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    768: {
-                        items: 3
-                    },
-                    999: {
-                        items: 5
-                    }
-                }
-            },
-            mode: 'Today'
-        }
-    },
     props: [
         'forecast'
     ],
     components: {
-        Slider
-    },
-    computed: {
-        show: function(){
-
-            return this.forecast.filter(function(forecast) {
-                return forecast.date[0] == "2022-07-06"
-            })
-
-        }
+        Slider,
+        [VueGlide.name]: VueGlide,
+        [VueGlideSlide.name]: VueGlideSlide
     },
     mounted() {
         //console.log(this.forecast)
@@ -71,39 +30,40 @@ export default {
     }
 }
 </script>
+<!-- flex-direction: column;  -->
+<style lang="scss" scoped>
 
-<style scoped>
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    max-height: 99999999px;
-    -webkit-font-smoothing: antialiased;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  .demo {
+    .glide {
+      &__slide {
+        display: flex;
+        border: 2px solid #ccc;
+        height: 200px;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-size: 36px;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all .3s;
+        opacity: .3;
+        &--active {
+          border: none;
+          color: #fff;
+           opacity: 1;
+          // background: linear-gradient(-45deg,#ed145b,#7b31f4);
+          background-color: limegreen;
+        }
+      }
+    }
+  }
 }
 
-#main {
-    font-family: "Roboto", Arial, sans-serif;
-    font-size: 14px;
-}
-
-.item {
-    background: #00800b;
-    text-align: center;
-    padding: 50px 0;
-    color: #fff;
-    font-size: 20px;
-    font-style: italic;
-    font-weight: 300;
-}
-
-.item.active {
-    background: #ff3f4d;
-}
-
-.item.super {
-    background: #04a0c5;
-}
 </style>

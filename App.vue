@@ -3,9 +3,12 @@
     <p>Брянск</p>
     <Search @search="startSearch" />
     <CurrentWeather v-if="currentWeather" v-bind:weather="currentWeather" />
-    <WeatherForecast v-if="forecast.length === 40" v-bind:forecast="forecast" />
 
-    <!-- {{ forecast }} -->
+    <button @click="switchMode('Today')">Today</button>
+    <button @click="switchMode('Tomorrow')">Tomorrow</button>
+    <button>Next 5 Days</button>
+    <WeatherForecast v-if="forecast.length > 1" v-bind:forecast="forecast" />
+
   </div>
 </template>
 
@@ -27,7 +30,9 @@ export default {
     return {
       currentWeather: null,
       searchText: null,
-      forecast: []
+      commonForecast: [],
+      mode: 'Today',
+      forecast: [],
     }
   },
   methods: {
@@ -42,17 +47,52 @@ export default {
         .getNext5DaysByQuery(data)
         .then(r => {
           r.data.list.forEach(el => {
-            this.forecast.push(
+            this.commonForecast.push(
               BigWeather.createByResponse(el)
             )
           });
-
+          this.show();
         });
 
-        console.log(this.forecast.length)
+    },
+    show() {
+      this.forecast.length = 0;
+      if (this.mode == 'Today') {
+        let now = new Date();
+        let month = (now.getMonth() + 1).toString().length == 2 ? now.getMonth() : '0' + (now.getMonth() + 1);
+        let day = now.getDate().toString().length == 2 ? now.getDate() : '0' + now.getDate();
+
+        this.commonForecast.forEach(el => {
+          if (el.date[0][0] == now.getFullYear() && el.date[0][1] == month && el.date[0][2] == day) {
+            this.forecast.push(el);
+          }
+        })
+      }
+      else if (this.mode == 'Tomorrow') {
+        console.log('мы тут')
+        console.log(this.commonForecast)
+
+        let now = new Date();
+        let tomorrow = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+        let month = (tomorrow.getMonth() + 1).toString().length == 2 ? tomorrow.getMonth() : '0' + (tomorrow.getMonth() + 1);
+        let day = tomorrow.getDate().toString().length == 2 ? tomorrow.getDate() : '0' + tomorrow.getDate();
+
+        this.commonForecast.forEach(el => {
+          console.log(el)
+          if (el.date[0][0] == tomorrow.getFullYear() && el.date[0][1] == month && el.date[0][2] == day) {
+            this.forecast.push(el);
+          }
+        })
+      }
+    },
+    switchMode(mode) {
+      this.mode = mode;
+      this.show();
     }
-  }
+  },
+
 }
+
 </script>
 
 <style scoped>

@@ -24,7 +24,7 @@
             // Количество слайдов на странице
             items: {
                 type: Number,
-                default: 3
+                default: 8
             },
             // Отступы
             margin: {
@@ -316,7 +316,7 @@
             nextSlide () {
                 this.setSlide(this.itemActive + this.settings.offset)
             },
-            // Предидущий слайдер
+            // Предыдущий слайдер
             prevSlide () {
                 this.setSlide(this.itemActive - this.settings.offset)
             },
