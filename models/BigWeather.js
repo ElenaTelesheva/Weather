@@ -6,10 +6,12 @@ class BigWeather{
         this.humidity = null
         this.wind = null
         this.rain = 0
+        this.fullDate = null
     }
 
     static createByResponse(response){
         const weather = new BigWeather;
+        weather.fullDate = response.dt_txt.split(" ", 1);
         weather.date = response.dt_txt.split(" ", 2);
         weather.date[0] = weather.date[0].split("-", 3);
         weather.icon = response.weather[0].icon;

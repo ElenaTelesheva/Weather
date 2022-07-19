@@ -1,6 +1,6 @@
 <template>
 <div>
-    <input placeholder="Поиск" type="text" v-model="searchText">
+    <input placeholder="Search..." type="text" v-model="searchText">
     <button @click="startSearch">O</button>
 </div>
 </template>

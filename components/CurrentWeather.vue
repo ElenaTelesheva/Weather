@@ -2,8 +2,7 @@
 <div>
     <p>{{ weather.place }}</p>
     <img v-bind:src="weather.imgUrl">
-    <p>Температура: {{ weather.temperature }}</p>
-    <p>Влажность: {{ weather.humidity }}</p>
+    <p>{{ weather.description }}</p>
 </div>
 </template>
 
@@ -17,7 +16,5 @@ export default {
 
 
 <style lang="scss">
-img {
-    width: 115px
-}
+
 </style>

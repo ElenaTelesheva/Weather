@@ -5,16 +5,21 @@ class Weather {
         this.temperature = null
         this.icon = null
         this.description = null
+        this.wind = null
     }
 
     static createByResponse(getWeatherResponse) {
         const weather = new Weather;
         getWeatherResponse = getWeatherResponse.data;
+
+        console.log(getWeatherResponse)
         weather.place = getWeatherResponse.name;
         weather.temperature = parseInt(getWeatherResponse.main.temp-273);
-        weather.humidity = parseInt(getWeatherResponse.main.humidity/10);
+        weather.humidity = getWeatherResponse.main.humidity;
         weather.description = getWeatherResponse.weather[0].main;
         weather.icon = getWeatherResponse.weather[0].icon;
+        weather.wind = getWeatherResponse.wind.speed;
+        weather.pressure = getWeatherResponse.main.pressure;
         return weather;
     }
 
